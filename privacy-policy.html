@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – Gravity Games</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #07080f; --bg2: #0d0f1c; --bg3: #111427;
+      --violet: #7c3aff; --cyan: #00e5ff;
+      --text: #e8eaf6; --text-muted: #7a80a8;
+      --border: #1e2240; --card: #0f1221;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    #stars-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 68px;
+      background: rgba(7,8,15,0.85); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--text);
+      font-family: 'Space Mono', monospace; font-weight: 700; font-size: 1.1rem;
+    }
+    .nav-links { display: flex; align-items: center; gap: 6px; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none;
+      font-size: 0.88rem; font-weight: 500; letter-spacing: 0.04em;
+      padding: 6px 14px; border-radius: 6px; transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover { color: var(--cyan); background: rgba(0,229,255,0.06); }
+    .nav-links a.active { color: var(--cyan); }
+    .nav-cta { background: var(--violet) !important; color: #fff !important; padding: 7px 18px !important; border-radius: 8px !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; }
+    .mobile-nav {
+      display: none; position: fixed; top: 68px; left: 0; right: 0;
+      background: rgba(7,8,15,0.97); backdrop-filter: blur(20px);
+      z-index: 99; border-bottom: 1px solid var(--border);
+      flex-direction: column; padding: 16px 5% 24px; gap: 4px;
+    }
+    .mobile-nav a { color: var(--text-muted); text-decoration: none; font-size: 1rem; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .mobile-nav a:hover { color: var(--cyan); }
+    .mobile-nav.open { display: flex; }
+    @media (max-width: 900px) { .nav-links { display: none; } .hamburger { display: flex; } }
+
+    /* PAGE HERO */
+    .page-hero {
+      position: relative; z-index: 1;
+      padding: 130px 5% 60px;
+      background: linear-gradient(180deg, rgba(124,58,255,0.06) 0%, transparent 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .page-hero-inner { max-width: 860px; margin: 0 auto; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--text-muted); text-decoration: none; font-size: 0.88rem;
+      margin-bottom: 28px; transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--cyan); }
+    .page-eyebrow {
+      font-family: 'Space Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.2em; color: var(--violet); text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .page-hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+      letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 20px;
+    }
+    .page-meta {
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+      padding: 16px 20px; background: var(--card);
+      border: 1px solid var(--border); border-radius: 10px;
+      font-size: 0.85rem; color: var(--text-muted);
+    }
+    .page-meta span { display: flex; align-items: center; gap: 6px; }
+    .page-meta strong { color: var(--text); }
+
+    /* CONTENT */
+    .page-content {
+      position: relative; z-index: 1;
+      max-width: 860px; margin: 0 auto;
+      padding: 60px 5% 100px;
+    }
+
+    .policy-section {
+      margin-bottom: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .policy-section:last-child { border-bottom: none; }
+
+    .policy-section h2 {
+      font-size: 1.25rem; font-weight: 700;
+      letter-spacing: -0.01em; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+      color: var(--text);
+    }
+    .section-num {
+      font-family: 'Space Mono', monospace; font-size: 0.7rem;
+      color: var(--violet); background: rgba(124,58,255,0.12);
+      padding: 3px 8px; border-radius: 4px; letter-spacing: 0.05em;
+    }
+
+    .policy-section p {
+      color: var(--text-muted); line-height: 1.8; margin-bottom: 14px;
+    }
+    .policy-section p:last-child { margin-bottom: 0; }
+
+    .policy-section ul, .policy-section ol {
+      color: var(--text-muted); padding-left: 0;
+      list-style: none; display: flex; flex-direction: column; gap: 8px;
+      margin: 12px 0;
+    }
+    .policy-section ul li, .policy-section ol li {
+      padding-left: 20px; position: relative; line-height: 1.7;
+    }
+    .policy-section ul li::before {
+      content: '—'; position: absolute; left: 0; color: var(--violet);
+    }
+    .policy-section ol { counter-reset: ol-counter; }
+    .policy-section ol li { counter-increment: ol-counter; }
+    .policy-section ol li::before {
+      content: counter(ol-counter) '.';
+      position: absolute; left: 0; color: var(--cyan);
+      font-family: 'Space Mono', monospace; font-size: 0.8rem;
+    }
+
+    .policy-section strong { color: var(--text); }
+    .policy-section a { color: var(--cyan); text-decoration: none; }
+    .policy-section a:hover { text-decoration: underline; }
+
+    .highlight-box {
+      background: rgba(124,58,255,0.06); border: 1px solid rgba(124,58,255,0.2);
+      border-radius: 10px; padding: 20px 24px; margin: 16px 0;
+      color: var(--text-muted); font-size: 0.9rem; line-height: 1.7;
+    }
+
+    .contact-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 28px 32px;
+    }
+    .contact-box p { color: var(--text-muted); margin-bottom: 10px; }
+    .contact-box a { color: var(--cyan); font-weight: 600; text-decoration: none; }
+
+    /* FOOTER */
+    footer {
+      position: relative; z-index: 1;
+      background: var(--bg2); border-top: 1px solid var(--border); padding: 40px 5%;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    }
+    .footer-copy { font-size: 0.82rem; color: var(--text-muted); }
+    .footer-links { display: flex; gap: 24px; list-style: none; flex-wrap: wrap; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--cyan); }
+  </style>
+</head>
+<body>
+<canvas id="stars-canvas"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="5" fill="#7c3aff"/>
+      <ellipse cx="16" cy="16" rx="14" ry="6" stroke="#00e5ff" stroke-width="1.5" stroke-dasharray="3 2" transform="rotate(-25 16 16)"/>
+      <circle cx="28" cy="12" r="2.5" fill="#00e5ff"/>
+    </svg>
+    Gravity Games
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#games">Games</a></li>
+    <li><a href="privacy-policy.html" class="active">Privacy</a></li>
+    <li><a href="terms.html">Terms</a></li>
+    <li><a href="refund-policy.html">Refund</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <div class="hamburger" onclick="document.getElementById('mnav').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-nav" id="mnav">
+  <a href="index.html">Home</a>
+  <a href="index.html#games">Games</a>
+  <a href="privacy-policy.html">Privacy Policy</a>
+  <a href="terms.html">Terms &amp; Conditions</a>
+  <a href="refund-policy.html">Refund Policy</a>
+  <a href="index.html#contact">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <a href="index.html" class="back-link">← Back to Home</a>
+    <div class="page-eyebrow">Legal</div>
+    <h1>Privacy Policy</h1>
+    <div class="page-meta">
+      <span>📅 <strong>Effective Date:</strong> June 2025</span>
+      <span>🏢 <strong>Publisher:</strong> Gravity Games</span>
+      <span>🔄 <strong>Last Updated:</strong> June 2025</span>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="page-content">
+
+  <div class="policy-section">
+    <h2><span class="section-num">01</span> Introduction</h2>
+    <p>Welcome to Gravity Games ("we", "our", or "us"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you play any of our mobile games available on the Google Play Store.</p>
+    <p>This policy applies to <strong>all current and future games published by Gravity Games</strong>. By downloading or playing any of our games, you agree to the terms of this Privacy Policy.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">02</span> Information We Collect</h2>
+    <p>We may collect the following types of information automatically when you use our games:</p>
+    <ul>
+      <li><strong>Device Information:</strong> Device model, operating system version, unique device identifiers (Android Advertising ID), language, and time zone.</li>
+      <li><strong>Gameplay Data:</strong> Scores, levels completed, in-game progress, session duration, and feature usage.</li>
+      <li><strong>Advertising Data:</strong> Ad impressions, clicks, and interactions collected by our third-party advertising partners.</li>
+      <li><strong>Purchase Data:</strong> Records of in-app purchases made through Google Play (we do not store payment card details — these are handled entirely by Google Play).</li>
+      <li><strong>Crash &amp; Diagnostic Data:</strong> Error logs, performance data, and crash reports to help us fix bugs.</li>
+      <li><strong>Log Data:</strong> IP address, access times, and pages or features viewed within the game.</li>
+    </ul>
+    <div class="highlight-box">
+      We do <strong>not</strong> collect your name, email address, or any other personally identifiable information unless you voluntarily contact us.
+    </div>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">03</span> How We Use Your Information</h2>
+    <p>We use the information we collect to:</p>
+    <ul>
+      <li>Provide, operate, and maintain our games and services</li>
+      <li>Process and fulfil in-app purchases made through Google Play</li>
+      <li>Display personalised and non-personalised advertisements</li>
+      <li>Analyse gameplay to improve game design, balance, and performance</li>
+      <li>Detect, investigate, and prevent fraudulent transactions and abuse</li>
+      <li>Comply with legal obligations and enforce our terms</li>
+      <li>Respond to your support requests and enquiries</li>
+    </ul>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">04</span> Advertising</h2>
+    <p>Our games display advertisements served by third-party ad networks. These networks may use your device's Advertising ID and other non-personal data to show you relevant ads. Our primary ad partner is:</p>
+    <ul>
+      <li><strong>Google AdMob</strong> – <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></li>
+    </ul>
+    <p>You can opt out of personalised advertising at any time by adjusting your device settings under <strong>Google Settings → Ads → Opt out of Ads Personalisation</strong>.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">05</span> In-App Purchases</h2>
+    <p>Some of our games offer optional in-app purchases (such as removing ads, buying virtual currency, or unlocking content). All purchases are processed securely through <strong>Google Play Billing</strong>. We do not collect, store, or have access to your payment card information. For billing enquiries, please refer to Google Play's support.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">06</span> Third-Party Services</h2>
+    <p>Our games may integrate the following third-party services, each governed by their own privacy policies:</p>
+    <ul>
+      <li><strong>Google Play Services</strong> – Leaderboards, achievements, sign-in</li>
+      <li><strong>Google AdMob</strong> – Advertising</li>
+      <li><strong>Firebase Analytics</strong> – App analytics and crash reporting</li>
+      <li><strong>Firebase Crashlytics</strong> – Crash reporting and diagnostics</li>
+    </ul>
+    <p>We encourage you to review the privacy policies of these services.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">07</span> Data Sharing &amp; Disclosure</h2>
+    <p>We do <strong>not</strong> sell, trade, or rent your personal information to third parties. We may share data in the following limited circumstances:</p>
+    <ul>
+      <li>With service providers who assist us in operating our games (under strict confidentiality agreements)</li>
+      <li>If required by law, regulation, or legal process</li>
+      <li>To protect the rights, safety, or property of Gravity Games or others</li>
+      <li>In connection with a merger, acquisition, or sale of assets (you will be notified of any such change)</li>
+    </ul>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">08</span> Children's Privacy</h2>
+    <p>Our games are intended for a general audience and are <strong>not directed at children under the age of 13</strong>. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us at <a href="mailto:gravitygames@gmail.com">gravitygames@gmail.com</a> and we will promptly delete that information.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">09</span> Data Retention</h2>
+    <p>We retain collected data only for as long as necessary to fulfil the purposes outlined in this policy, or as required by law. Anonymised and aggregated analytics data may be retained indefinitely for research and improvement purposes.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">10</span> Data Security</h2>
+    <p>We implement appropriate technical and organisational measures to protect your data against unauthorised access, alteration, disclosure, or destruction. However, no method of electronic transmission or storage is 100% secure, and we cannot guarantee absolute security.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">11</span> Your Rights</h2>
+    <p>Depending on your location, you may have the following rights regarding your data:</p>
+    <ul>
+      <li>The right to access the data we hold about you</li>
+      <li>The right to request correction or deletion of your data</li>
+      <li>The right to opt out of personalised advertising</li>
+      <li>The right to withdraw consent at any time</li>
+    </ul>
+    <p>To exercise any of these rights, please contact us at <a href="mailto:gravitygames@gmail.com">gravitygames@gmail.com</a>.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">12</span> Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time to reflect changes in our practices or for legal, operational, or regulatory reasons. We will update the "Last updated" date at the top of this page. We encourage you to review this policy periodically. Continued use of our games after any changes constitutes your acceptance of the updated policy.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">13</span> Contact Us</h2>
+    <div class="contact-box">
+      <p>If you have any questions, concerns, or requests regarding this Privacy Policy, please contact us:</p>
+      <p><strong>Gravity Games</strong></p>
+      <p>📧 <a href="mailto:gravitygames@gmail.com">gravitygames@gmail.com</a></p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy">© 2025 Gravity Games. All rights reserved.</div>
+    <ul class="footer-links">
+      <li><a href="privacy-policy.html">Privacy Policy</a></li>
+      <li><a href="terms.html">Terms &amp; Conditions</a></li>
+      <li><a href="refund-policy.html">Refund Policy</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+  const canvas = document.getElementById('stars-canvas');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  function initStars() {
+    stars = [];
+    for (let i = 0; i < 120; i++) {
+      stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.1+0.2, a: Math.random(), speed: Math.random()*0.3+0.05 });
+    }
+  }
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      s.a += s.speed * 0.015;
+      const alpha = (Math.sin(s.a)*0.5+0.5)*0.6+0.1;
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(255,255,255,${alpha})`; ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  resize(); initStars(); drawStars();
+  window.addEventListener('resize', () => { resize(); initStars(); });
+</script>
+</body>
+</html>

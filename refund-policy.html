@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Refund Policy – Gravity Games</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #07080f; --bg2: #0d0f1c; --bg3: #111427;
+      --violet: #7c3aff; --cyan: #00e5ff;
+      --text: #e8eaf6; --text-muted: #7a80a8;
+      --border: #1e2240; --card: #0f1221;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; font-size: 16px; line-height: 1.6; }
+    #stars-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 68px;
+      background: rgba(7,8,15,0.85); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-family: 'Space Mono', monospace; font-weight: 700; font-size: 1.1rem; }
+    .nav-links { display: flex; align-items: center; gap: 6px; list-style: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.88rem; font-weight: 500; letter-spacing: 0.04em; padding: 6px 14px; border-radius: 6px; transition: color 0.2s, background 0.2s; }
+    .nav-links a:hover { color: var(--cyan); background: rgba(0,229,255,0.06); }
+    .nav-links a.active { color: var(--cyan); }
+    .nav-cta { background: var(--violet) !important; color: #fff !important; padding: 7px 18px !important; border-radius: 8px !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; }
+    .mobile-nav { display: none; position: fixed; top: 68px; left: 0; right: 0; background: rgba(7,8,15,0.97); backdrop-filter: blur(20px); z-index: 99; border-bottom: 1px solid var(--border); flex-direction: column; padding: 16px 5% 24px; gap: 4px; }
+    .mobile-nav a { color: var(--text-muted); text-decoration: none; font-size: 1rem; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .mobile-nav a:hover { color: var(--cyan); }
+    .mobile-nav.open { display: flex; }
+    @media (max-width: 900px) { .nav-links { display: none; } .hamburger { display: flex; } }
+
+    .page-hero {
+      position: relative; z-index: 1;
+      padding: 130px 5% 60px;
+      background: linear-gradient(180deg, rgba(124,58,255,0.05) 0%, transparent 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .page-hero-inner { max-width: 860px; margin: 0 auto; }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.88rem; margin-bottom: 28px; transition: color 0.2s; }
+    .back-link:hover { color: var(--cyan); }
+    .page-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--violet); text-transform: uppercase; margin-bottom: 14px; }
+    .page-hero h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 20px; }
+    .page-meta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding: 16px 20px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; font-size: 0.85rem; color: var(--text-muted); }
+    .page-meta span { display: flex; align-items: center; gap: 6px; }
+    .page-meta strong { color: var(--text); }
+
+    .important-banner {
+      position: relative; z-index: 1;
+      max-width: 860px; margin: 32px auto 0;
+      padding: 0 5%;
+    }
+    .important-banner-inner {
+      background: rgba(255,165,0,0.06);
+      border: 1px solid rgba(255,165,0,0.25);
+      border-radius: 12px;
+      padding: 18px 24px;
+      display: flex; align-items: flex-start; gap: 14px;
+      font-size: 0.9rem; color: var(--text-muted); line-height: 1.7;
+    }
+    .important-banner-inner .icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+    .important-banner-inner strong { color: var(--text); }
+
+    .page-content { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 60px 5% 100px; }
+
+    .policy-section { margin-bottom: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--border); }
+    .policy-section:last-child { border-bottom: none; }
+    .policy-section h2 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; color: var(--text); }
+    .section-num { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--violet); background: rgba(124,58,255,0.12); padding: 3px 8px; border-radius: 4px; letter-spacing: 0.05em; }
+    .policy-section p { color: var(--text-muted); line-height: 1.8; margin-bottom: 14px; }
+    .policy-section p:last-child { margin-bottom: 0; }
+    .policy-section ul, .policy-section ol { color: var(--text-muted); padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+    .policy-section ul li, .policy-section ol li { padding-left: 20px; position: relative; line-height: 1.7; }
+    .policy-section ul li::before { content: '—'; position: absolute; left: 0; color: var(--violet); }
+    .policy-section ol { counter-reset: ol-counter; }
+    .policy-section ol li { counter-increment: ol-counter; }
+    .policy-section ol li::before { content: counter(ol-counter) '.'; position: absolute; left: 0; color: var(--cyan); font-family: 'Space Mono', monospace; font-size: 0.8rem; }
+    .policy-section strong { color: var(--text); }
+    .policy-section a { color: var(--cyan); text-decoration: none; }
+    .policy-section a:hover { text-decoration: underline; }
+
+    .highlight-box { background: rgba(0,229,255,0.05); border: 1px solid rgba(0,229,255,0.15); border-radius: 10px; padding: 20px 24px; margin: 16px 0; color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
+    .success-box { background: rgba(0,200,100,0.05); border: 1px solid rgba(0,200,100,0.2); border-radius: 10px; padding: 20px 24px; margin: 16px 0; color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
+    .refund-steps { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin: 16px 0; }
+    .refund-steps p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px; }
+    .refund-steps ol { counter-reset: step-counter; }
+    .refund-steps ol li { counter-increment: step-counter; padding-left: 28px; position: relative; line-height: 1.7; color: var(--text-muted); margin-bottom: 8px; }
+    .refund-steps ol li::before { content: counter(step-counter); position: absolute; left: 0; width: 20px; height: 20px; background: var(--violet); color: #fff; border-radius: 50%; font-size: 0.68rem; font-family: 'Space Mono', monospace; display: flex; align-items: center; justify-content: center; top: 2px; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+    .col-box { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+    .col-box h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 10px; }
+    .col-box.eligible h4 { color: #4ade80; }
+    .col-box.ineligible h4 { color: #f87171; }
+    .col-box ul li::before { color: inherit !important; }
+    .col-box ul li { font-size: 0.85rem; }
+    @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+    .contact-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px 32px; }
+    .contact-box p { color: var(--text-muted); margin-bottom: 10px; }
+    .contact-box a { color: var(--cyan); font-weight: 600; text-decoration: none; }
+
+    footer { position: relative; z-index: 1; background: var(--bg2); border-top: 1px solid var(--border); padding: 40px 5%; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+    .footer-copy { font-size: 0.82rem; color: var(--text-muted); }
+    .footer-links { display: flex; gap: 24px; list-style: none; flex-wrap: wrap; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--cyan); }
+  </style>
+</head>
+<body>
+<canvas id="stars-canvas"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="5" fill="#7c3aff"/>
+      <ellipse cx="16" cy="16" rx="14" ry="6" stroke="#00e5ff" stroke-width="1.5" stroke-dasharray="3 2" transform="rotate(-25 16 16)"/>
+      <circle cx="28" cy="12" r="2.5" fill="#00e5ff"/>
+    </svg>
+    Gravity Games
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#games">Games</a></li>
+    <li><a href="privacy-policy.html">Privacy</a></li>
+    <li><a href="terms.html">Terms</a></li>
+    <li><a href="refund-policy.html" class="active">Refund</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <div class="hamburger" onclick="document.getElementById('mnav').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-nav" id="mnav">
+  <a href="index.html">Home</a>
+  <a href="index.html#games">Games</a>
+  <a href="privacy-policy.html">Privacy Policy</a>
+  <a href="terms.html">Terms &amp; Conditions</a>
+  <a href="refund-policy.html">Refund Policy</a>
+  <a href="index.html#contact">Contact</a>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <a href="index.html" class="back-link">← Back to Home</a>
+    <div class="page-eyebrow">Legal</div>
+    <h1>Refund Policy</h1>
+    <div class="page-meta">
+      <span>📅 <strong>Effective Date:</strong> June 2025</span>
+      <span>🏢 <strong>Publisher:</strong> Gravity Games</span>
+      <span>🔄 <strong>Last Updated:</strong> June 2025</span>
+    </div>
+  </div>
+</div>
+
+<div class="important-banner">
+  <div class="important-banner-inner">
+    <span class="icon">⚠️</span>
+    <div><strong>Important:</strong> All in-app purchases made through our games are processed by <strong>Google Play Billing</strong>. Refunds are primarily handled by Google Play. This policy outlines our position and how we can assist you.</div>
+  </div>
+</div>
+
+<div class="page-content">
+
+  <div class="policy-section">
+    <h2><span class="section-num">01</span> Overview</h2>
+    <p>This Refund Policy applies to all in-app purchases made in any game published by <strong>Gravity Games</strong> on the Google Play Store. Since all transactions are processed through Google Play Billing, Google's own refund policies also apply and take precedence.</p>
+    <p>Our games may offer optional in-app purchases such as virtual currency, premium content, power-ups, ad removal, and other digital items.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">02</span> Google Play Refund Policy</h2>
+    <p>Google Play offers a <strong>48-hour refund window</strong> for most in-app purchases. Within this period, you may be eligible to request a refund directly through Google Play:</p>
+    <div class="refund-steps">
+      <p>How to request a refund via Google Play:</p>
+      <ol>
+        <li>Open the <strong>Google Play Store</strong> app on your device</li>
+        <li>Tap your profile icon → <strong>Payments &amp; subscriptions</strong></li>
+        <li>Tap <strong>Budget &amp; history</strong> → find your purchase</li>
+        <li>Tap the purchase → <strong>Request a refund</strong></li>
+      </ol>
+    </div>
+    <p>Alternatively, visit <a href="https://play.google.com/store/account/subscriptions" target="_blank" rel="noopener">Google Play Help</a> or contact Google Play Support directly.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">03</span> Eligible &amp; Non-Eligible Refund Situations</h2>
+    <div class="two-col">
+      <div class="col-box eligible">
+        <h4>✓ Eligible for Refund</h4>
+        <ul>
+          <li>Accidental purchase, item unused</li>
+          <li>Duplicate charge due to technical error</li>
+          <li>Item not delivered to your account</li>
+          <li>Bug prevented access to purchased item</li>
+          <li>Unauthorised purchase by a minor</li>
+        </ul>
+      </div>
+      <div class="col-box ineligible">
+        <h4>✕ Generally Not Refundable</h4>
+        <ul>
+          <li>Purchase over 48 hours ago, item used</li>
+          <li>Changed your mind after consuming item</li>
+          <li>No longer playing or uninstalled game</li>
+          <li>Prior refund for same purchase type</li>
+          <li>Does not meet Google Play criteria</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">04</span> Subscriptions</h2>
+    <p>If any of our games offer subscription-based purchases:</p>
+    <ul>
+      <li>You may cancel your subscription at any time through Google Play</li>
+      <li>Cancelling stops future billing but does <strong>not</strong> automatically generate a refund for the current billing period</li>
+      <li>Access to subscription content will continue until the end of the paid period</li>
+      <li>Refunds for subscriptions are evaluated on a case-by-case basis</li>
+    </ul>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">05</span> Unauthorised Purchases by Minors</h2>
+    <p>If a child has made unauthorised purchases in one of our games, we take these situations seriously. Please contact us as soon as possible at <a href="mailto:gravitygames@gmail.com">gravitygames@gmail.com</a> with details of the purchases. We will work with you and Google Play to resolve the situation.</p>
+    <div class="highlight-box">
+      We strongly recommend enabling <strong>Google Play purchase authentication</strong> on your device to prevent unauthorised purchases. You can set this under Google Play → Settings → Authentication.
+    </div>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">06</span> How to Request a Refund from Us</h2>
+    <p>If you are unable to obtain a refund through Google Play and believe you qualify under our policy, please contact us with the following information:</p>
+    <ol>
+      <li>Your Google Play order number (found in your confirmation email)</li>
+      <li>The name of the game and the item purchased</li>
+      <li>The date and amount of the purchase</li>
+      <li>The reason for your refund request</li>
+      <li>Any relevant screenshots or evidence</li>
+    </ol>
+    <div class="success-box">
+      Send your request to: <a href="mailto:gravitygames@gmail.com">gravitygames@gmail.com</a><br/>
+      We aim to respond to all refund enquiries within <strong>3–5 business days</strong>. Please note that while we will do our best to assist, final refund decisions for Google Play purchases are ultimately made by Google.
+    </div>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">07</span> Processing of Approved Refunds</h2>
+    <p>If a refund is approved:</p>
+    <ul>
+      <li>Refunds are processed back to the original payment method used on Google Play</li>
+      <li>Processing time is typically <strong>3–10 business days</strong> depending on your bank or payment provider</li>
+      <li>Any virtual currency or items granted by the purchase will be removed from your account upon refund approval</li>
+    </ul>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">08</span> Changes to This Policy</h2>
+    <p>We may update this Refund Policy from time to time. We will notify users by updating the date at the top of this page. Continued use of our games after any changes constitutes your acceptance of the updated policy.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2><span class="section-num">09</span> Contact Us</h2>
+    <div class="contact-box">
+      <p>For refund requests or any questions about this policy, please reach out to us. We are happy to assist and will do our best to resolve any issues fairly and promptly.</p>
+      <p><strong>Gravity Games</strong></p>
+      <p>📧 <a href="mailto:gravitygames@gmail.com">gravitygames@gmail.com</a></p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy">© 2025 Gravity Games. All rights reserved.</div>
+    <ul class="footer-links">
+      <li><a href="privacy-policy.html">Privacy Policy</a></li>
+      <li><a href="terms.html">Terms &amp; Conditions</a></li>
+      <li><a href="refund-policy.html">Refund Policy</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+  const canvas = document.getElementById('stars-canvas');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  function initStars() {
+    stars = [];
+    for (let i = 0; i < 120; i++) {
+      stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.1+0.2, a: Math.random(), speed: Math.random()*0.3+0.05 });
+    }
+  }
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      s.a += s.speed * 0.015;
+      const alpha = (Math.sin(s.a)*0.5+0.5)*0.6+0.1;
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(255,255,255,${alpha})`; ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  resize(); initStars(); drawStars();
+  window.addEventListener('resize', () => { resize(); initStars(); });
+</script>
+</body>
+</html>
